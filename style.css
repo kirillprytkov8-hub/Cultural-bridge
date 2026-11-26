@@ -1,0 +1,227 @@
+/* =========================================================================
+   Дизайн-система «Этно-Крафт» — «Культурный мост»
+   ========================================================================= */
+
+:root {
+    --color-linen: #F3ECE1;
+    --color-craft: #EAE0D0;
+    --color-parchment: #FAF6EE;
+    --color-ink: #1F1D1A;
+    --color-border: rgba(42, 38, 34, 0.28);
+    --color-border-strong: #2A2622;
+    --color-cinnabar: #A63426;
+    --color-forest: #2F4A37;
+    --color-gold: #B88A44;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--color-linen);
+    color: var(--color-ink);
+    font-family: 'PT Sans', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Тонкая текстура неотбелённого льна и архивной бумаги */
+.linen-texture {
+    background-color: var(--color-linen);
+    background-image:
+        radial-gradient(rgba(31, 29, 26, 0.035) 1px, transparent 0),
+        linear-gradient(90deg, rgba(42, 38, 34, 0.018) 50%, transparent 50%),
+        linear-gradient(rgba(42, 38, 34, 0.018) 50%, transparent 50%);
+    background-size: 16px 16px, 4px 4px, 4px 4px;
+}
+
+.craft-texture {
+    background-color: var(--color-craft);
+    background-image: radial-gradient(rgba(31, 29, 26, 0.045) 1px, transparent 0);
+    background-size: 12px 12px;
+}
+
+/* Тонкие музейно-редакционные угольные линии */
+.hairline {
+    border-color: var(--color-border);
+}
+
+.hairline-strong {
+    border-color: var(--color-border-strong);
+}
+
+/* Стили активной вкладки навигации */
+.nav-tab {
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.nav-tab.active {
+    color: var(--color-cinnabar);
+    font-weight: 700;
+}
+
+.nav-tab.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background-color: var(--color-cinnabar);
+}
+
+/* Плавное появление секций */
+.view-section {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Интерактивные маркеры на карте РФ (кроссбраузерная анимация через transform) */
+.map-pin {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+    outline: none;
+}
+
+.map-pin:hover,
+.map-pin:focus-visible {
+    transform: scale(1.16);
+}
+
+.map-pin circle.pin-ring {
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.map-pin.active-pin circle.pin-ring {
+    opacity: 0.75;
+    animation: pulseRingScale 1.8s ease-out infinite;
+}
+
+@keyframes pulseRingScale {
+    0% {
+        transform: scale(0.85);
+        opacity: 0.85;
+    }
+    100% {
+        transform: scale(2.25);
+        opacity: 0;
+    }
+}
+
+/* Панорамирование карты при приближении */
+#russia-map-stage.can-pan {
+    cursor: grab;
+}
+
+#russia-map-stage.can-pan.is-panning {
+    cursor: grabbing;
+}
+
+/* Эффект архивного штампа для коллекции */
+.stamp-collected {
+    box-shadow: inset 0 0 0 2px rgba(166, 52, 38, 0.16);
+}
+
+/* Видеоплеер и встроенные ролики в разделе «Блог и видео» */
+.blog-video-player {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #1F1D1A;
+    border-radius: 2px;
+    display: block;
+    object-fit: contain;
+}
+
+/* Читабельные переносы текста в карточках постов */
+.post-prose {
+    white-space: pre-line;
+    word-break: break-word;
+}
+
+/* =========================================================================
+   Режим демонстрации мобильного фрейма (375px) на десктопе
+   ========================================================================= */
+
+body.mobile-preview-mode {
+    background-color: #DCD2C2;
+    padding-bottom: 40px;
+}
+
+body.mobile-preview-mode #app-shell {
+    width: 375px;
+    max-width: 375px;
+    margin: 20px auto 0 auto;
+    border: 2px solid #2A2622;
+    border-radius: 28px;
+    box-shadow: 0 24px 60px rgba(31, 29, 26, 0.22);
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: calc(100vh - 88px);
+    position: relative;
+}
+
+body.mobile-preview-mode .desktop-nav-links,
+body.mobile-preview-mode .desktop-profile-btn {
+    display: none !important;
+}
+
+body.mobile-preview-mode .mobile-menu-trigger {
+    display: inline-flex !important;
+}
+
+body.mobile-preview-mode .responsive-grid-2,
+body.mobile-preview-mode .responsive-grid-3,
+body.mobile-preview-mode .responsive-grid-4,
+body.mobile-preview-mode .responsive-grid-12 {
+    grid-template-columns: minmax(0, 1fr) !important;
+}
+
+body.mobile-preview-mode .responsive-col-span {
+    grid-column: span 1 / span 1 !important;
+}
+
+body.mobile-preview-mode .hero-title {
+    font-size: 2.35rem !important;
+    line-height: 1.05 !important;
+}
+
+body.mobile-preview-mode .section-pad {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+}
+
+/* Кастомный скроллбар */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #EAE0D0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #9B8E7E;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2A2622;
+}

@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Культурный мост — Этно-Крафт | Живое наследие народов России</title>
+    <meta name="description" content="Интерактивная платформа «Культурный мост: от цифры к общению». Актуальная карта традиций России, атлас орнаментов, блог, видео и молодёжные события.">
+    <meta name="theme-color" content="#F3ECE1">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Культурный мост — от цифры к общению">
+    <meta property="og:description" content="Живое наследие, языки, видеоистории и подлинные узоры народов России.">
+    <meta property="og:locale" content="ru_RU">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23F3ECE1' stroke='%231F1D1A' stroke-width='2'/%3E%3Cpath d='M4 22C8 13 13 9 16 9C19 9 24 13 28 22' fill='none' stroke='%231F1D1A' stroke-width='2.2'/%3E%3Cpath d='M6 25H26' stroke='%23A63426' stroke-width='2.2'/%3E%3Cpolygon points='16,4 19,7 16,10 13,7' fill='%23A63426'/%3E%3Ccircle cx='16' cy='18' r='2.5' fill='%232F4A37'/%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        linen: '#F3ECE1',
+                        craft: '#EAE0D0',
+                        parchment: '#FAF6EE',
+                        ink: '#1F1D1A',
+                        cinnabar: '#A63426',
+                        forest: '#2F4A37',
+                        forestHover: '#233829',
+                        gold: '#B88A44'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"PT Sans"', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="linen-texture min-h-screen text-ink selection:bg-cinnabar/20 selection:text-ink">
+
+    <!-- Верхняя панель переключения адаптивного просмотра -->
+    <div id="jury-toolbar" class="hidden md:flex flex-wrap items-center justify-between gap-2 px-6 py-2 bg-ink text-linen text-xs border-b border-ink sticky top-0 z-50">
+        <div class="flex items-center gap-2.5 min-w-0">
+            <span class="inline-block w-2 h-2 rounded-full bg-gold shrink-0"></span>
+            <span class="tracking-wide uppercase font-bold text-gold whitespace-nowrap">Этно-Крафт · «Культурный мост»</span>
+            <span class="text-linen/50 hidden lg:inline">|</span>
+            <span class="text-linen/80 truncate hidden lg:inline">Платформа культурного диалога народов России</span>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+            <span class="text-linen/70 mr-1 hidden sm:inline">Просмотр:</span>
+            <button type="button" id="btn-mode-desktop" onclick="setViewportMode('desktop')" class="px-3 py-1 rounded border border-linen/40 bg-linen text-ink font-bold transition cursor-pointer whitespace-nowrap">Десктоп (1440px)</button>
+            <button type="button" id="btn-mode-mobile" onclick="setViewportMode('mobile')" class="px-3 py-1 rounded border border-linen/30 text-linen/85 hover:bg-linen/10 transition cursor-pointer whitespace-nowrap">Мобильный (375px)</button>
+        </div>
+    </div>
+
+    <!-- Главная оболочка приложения -->
+    <div id="app-shell" class="linen-texture min-h-screen flex flex-col max-w-[1440px] mx-auto border-x hairline shadow-[0_0_40px_rgba(31,29,26,0.06)]">
+
+        <!-- Шапка сайта -->
+        <header class="sticky top-0 z-40 bg-linen/95 backdrop-blur-sm border-b hairline-strong transition-shadow" id="main-header">
+            <div class="section-pad px-4 sm:px-8 h-16 sm:h-20 flex items-center justify-between gap-3">
+                <button type="button" onclick="switchView('home')" class="flex items-center gap-3 text-left group cursor-pointer focus:outline-none shrink-0">
+                    <div class="w-9 h-9 rounded-sm border hairline-strong bg-parchment flex items-center justify-center shrink-0 group-hover:border-cinnabar transition">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M2 16C5 10 9 7 12 7C15 7 19 10 22 16" stroke="#1F1D1A" stroke-width="1.6"/>
+                            <path d="M4 18H20" stroke="#A63426" stroke-width="1.6"/>
+                            <polygon points="12,3 14.2,5.2 12,7.4 9.8,5.2" fill="#A63426"/>
+                            <circle cx="12" cy="13.5" r="1.8" fill="#2F4A37"/>
+                            <path d="M7.5 14V18M16.5 14V18" stroke="#1F1D1A" stroke-width="1.3"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="font-serif font-bold text-lg sm:text-xl tracking-wider leading-none text-ink uppercase">Культурный мост</div>
+                        <div class="text-[11px] tracking-widest uppercase text-ink/60 mt-0.5 hidden sm:block">От цифры к общению</div>
+                    </div>
+                </button>
+
+                <!-- Десктопная навигация -->
+                <nav class="desktop-nav-links hidden xl:flex items-center gap-6 text-sm tracking-wide" aria-label="Основная навигация">
+                    <button type="button" onclick="switchView('home')" data-nav="home" class="nav-tab py-2 text-ink/80 hover:text-ink cursor-pointer">Главная</button>
+                    <button type="button" onclick="switchView('blog')" data-nav="blog" class="nav-tab py-2 text-ink/80 hover:text-ink cursor-pointer">Блог и видео</button>
+                    <button type="button" onclick="switchView('atlas')" data-nav="atlas" class="nav-tab py-2 text-ink/80 hover:text-ink cursor-pointer">Атлас орнаментов</button>
+                    <button type="button" onclick="switchView('event')" data-nav="event" class="nav-tab py-2 text-ink/80 hover:text-ink cursor-pointer">Событие</button>
+                    <button type="button" onclick="switchView('profile')" data-nav="profile" class="nav-tab py-2 text-ink/80 hover:text-ink cursor-pointer">Личный кабинет</button>
+                    <button type="button" onclick="switchView('uikit')" data-nav="uikit" class="nav-tab py-2 text-ink/80 hover:text-ink cursor-pointer">UI-Kit</button>
+                </nav>
+
+                <!-- Кнопки Админа, Личного кабинета и мобильного меню -->
+                <div class="flex items-center gap-2 sm:gap-2.5">
+                    <button type="button" id="header-admin-btn" onclick="openAdminEntry()" class="desktop-profile-btn hidden sm:inline-flex items-center gap-1.5 px-3 py-2.5 rounded-md border hairline-strong bg-parchment hover:bg-craft text-ink text-xs sm:text-sm font-bold transition cursor-pointer" title="Панель администратора">
+                        <svg class="w-4 h-4 text-cinnabar" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                        <span id="header-admin-label">Админ</span>
+                    </button>
+
+                    <button type="button" onclick="switchView('profile')" class="desktop-profile-btn hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-forest hover:bg-forestHover text-parchment text-xs sm:text-sm font-bold transition shadow-sm cursor-pointer">
+                        <span>Кабинет</span>
+                        <span id="header-badge-count" class="inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-full bg-gold text-ink text-xs font-bold">3</span>
+                    </button>
+
+                    <!-- Кнопка Войти / Аватар пользователя -->
+                    <button type="button" id="header-auth-btn" onclick="state.currentUser ? switchView('profile') : openAuthModal('login')" class="desktop-profile-btn hidden sm:inline-flex items-center gap-2 px-3 py-2.5 rounded-md border hairline-strong bg-parchment hover:bg-craft text-ink text-xs sm:text-sm font-bold transition cursor-pointer" title="Вход / Регистрация">
+                        <svg class="w-4 h-4 text-forest" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        <span id="header-auth-label">Войти</span>
+                    </button>
+
+                    <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" class="mobile-menu-trigger xl:hidden inline-flex items-center justify-center w-11 h-11 rounded-md border hairline-strong bg-parchment text-ink hover:bg-craft transition cursor-pointer" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu">
+                        <svg id="menu-icon-open" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
+                        <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Выпадающее мобильное меню -->
+            <div id="mobile-menu" class="hidden border-t hairline bg-parchment px-4 py-4 space-y-2 shadow-lg">
+                <button type="button" onclick="switchView('home'); toggleMobileMenu(false)" class="w-full text-left px-3 py-2.5 rounded-md hover:bg-craft text-sm font-bold flex items-center justify-between cursor-pointer"><span>Главная</span><span class="text-xs text-ink/50">→</span></button>
+                <button type="button" onclick="switchView('blog'); toggleMobileMenu(false)" class="w-full text-left px-3 py-2.5 rounded-md hover:bg-craft text-sm font-bold flex items-center justify-between cursor-pointer"><span>Блог и видео</span><span class="text-xs text-cinnabar font-bold">Новое</span></button>
+                <button type="button" onclick="switchView('atlas'); toggleMobileMenu(false)" class="w-full text-left px-3 py-2.5 rounded-md hover:bg-craft text-sm font-bold flex items-center justify-between cursor-pointer"><span>Атлас орнаментов</span><span class="text-xs text-ink/50">→</span></button>
+                <button type="button" onclick="switchView('event'); toggleMobileMenu(false)" class="w-full text-left px-3 py-2.5 rounded-md hover:bg-craft text-sm font-bold flex items-center justify-between cursor-pointer"><span>Страница события</span><span class="text-xs text-ink/50">→</span></button>
+                <button type="button" onclick="switchView('profile'); toggleMobileMenu(false)" class="w-full text-left px-3 py-2.5 rounded-md bg-forest text-parchment text-sm font-bold flex items-center justify-between cursor-pointer"><span>Личный кабинет</span><span id="mobile-badge-count" class="px-2 py-0.5 rounded-full bg-gold text-ink text-xs font-bold">3</span></button>
+                <button type="button" onclick="openAdminEntry(); toggleMobileMenu(false)" class="w-full text-left px-3 py-2.5 rounded-md border hairline-strong bg-linen hover:bg-craft text-sm font-bold flex items-center justify-between cursor-pointer"><span>Панель администратора</span><span class="text-xs text-cinnabar">⚙</span></button>
+                <button type="button" onclick="switchView('uikit'); toggleMobileMenu(false)" class="w-full text-left px-3 py-2.5 rounded-md hover:bg-craft text-sm font-bold flex items-center justify-between cursor-pointer"><span>Дизайн-система UI-Kit</span><span class="text-xs text-ink/50">→</span></button>
+                <button type="button" onclick="(state.currentUser ? switchView('profile') : openAuthModal('login')); toggleMobileMenu(false)" class="w-full text-left px-3 py-2.5 rounded-md border border-forest text-forest text-sm font-bold flex items-center justify-between cursor-pointer hover:bg-forest/10"><span id="mobile-auth-label">Войти / Зарегистрироваться</span><span class="text-xs opacity-70">→</span></button>
+            </div>
+        </header>
+
+        <main class="flex-1">
+
+            <!-- ===================================================================== -->
+            <!-- СТРАНИЦА 1: ГЛАВНАЯ                                                   -->
+            <!-- ===================================================================== -->
+            <div id="view-home" class="view-section">
+                <section class="border-b hairline-strong">
+                    <div class="responsive-grid-12 grid grid-cols-1 lg:grid-cols-12">
+                        <div class="responsive-col-span lg:col-span-6 section-pad px-5 sm:px-10 py-10 sm:py-14 lg:py-16 flex flex-col justify-between border-b lg:border-b-0 lg:border-r hairline">
+                            <div>
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-sm border hairline bg-parchment text-xs uppercase tracking-widest text-cinnabar font-bold mb-6">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-cinnabar"></span>
+                                    Проект «Культурный мост: от цифры к общению»
+                                </div>
+                                <h1 class="hero-title font-serif font-bold text-4xl sm:text-5xl xl:text-6xl leading-[1.03] tracking-tight text-ink uppercase mb-6">Культурный<br>мост</h1>
+                                <p class="text-base sm:text-lg leading-relaxed text-ink/80 max-w-xl mb-8">Живое наследие, языки и подлинные узоры народов России. Пространство для знакомства с традициями, общения и совместных мероприятий молодёжи.</p>
+                                <div class="flex flex-wrap items-center gap-3.5">
+                                    <button type="button" onclick="scrollToCommunity()" class="px-6 py-3.5 rounded-md bg-forest hover:bg-forestHover text-parchment text-sm sm:text-base font-bold transition shadow-sm cursor-pointer">Присоединиться</button>
+                                    <button type="button" onclick="switchView('blog')" class="px-6 py-3.5 rounded-md border border-ink bg-transparent hover:bg-craft text-ink text-sm sm:text-base font-bold transition cursor-pointer">Блог и видео</button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4 pt-10 mt-10 border-t hairline">
+                                <div><div class="font-serif font-bold text-2xl sm:text-3xl text-cinnabar">190+</div><div class="text-xs text-ink/70 mt-0.5">народов и культур</div></div>
+                                <div><div class="font-serif font-bold text-2xl sm:text-3xl text-ink">4</div><div class="text-xs text-ink/70 mt-0.5">подлинных канона</div></div>
+                                <div><div class="font-serif font-bold text-2xl sm:text-3xl text-forest">16–30</div><div class="text-xs text-ink/70 mt-0.5">молодёжное комьюнити</div></div>
+                            </div>
+                        </div>
+
+                        <div class="responsive-col-span lg:col-span-6 craft-texture section-pad p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
+                            <div class="bg-parchment border hairline-strong p-3 sm:p-4 rounded-sm shadow-sm">
+                                <div id="hero-mezen-container" class="w-full overflow-hidden border hairline bg-[#F6EFE4]"></div>
+                                <div class="mt-3 pt-3 border-t hairline flex flex-wrap items-center justify-between gap-2 text-xs">
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-0.5 bg-cinnabar/10 border border-cinnabar/30 text-cinnabar font-bold rounded-sm">Подлинный мотив</span>
+                                        <span class="font-bold text-ink">Мезенская роспись · Архангельская область</span>
+                                    </div>
+                                    <button type="button" onclick="openOrnamentModal('mezen')" class="text-forest font-bold underline underline-offset-4 hover:text-cinnabar transition cursor-pointer">О символике →</button>
+                                </div>
+                            </div>
+                            <p class="text-xs text-ink/65 mt-3 italic">Бегущие красные и чёрные кони — древний символ восхода солнца, движения времени и связи поколений Русского Севера.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Карта традиций -->
+                <section id="section-map" class="border-b hairline-strong section-pad px-5 sm:px-10 py-12 sm:py-16">
+                    <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-cinnabar font-bold mb-1">География наследия</div>
+                            <h2 class="font-serif font-bold text-3xl sm:text-4xl text-ink">Карта традиций</h2>
+                        </div>
+                        <p class="text-sm text-ink/75 max-w-md">Нажмите на отметку региона на карте, чтобы изучить подлинный орнамент и добавить узор в коллекцию. При приближении карту можно перетаскивать.</p>
+                    </div>
+
+                    <div class="responsive-grid-12 grid grid-cols-1 lg:grid-cols-12 border hairline-strong bg-parchment rounded-sm overflow-hidden">
+                        <div class="responsive-col-span lg:col-span-7 craft-texture p-4 sm:p-6 relative border-b lg:border-b-0 lg:border-r hairline flex flex-col justify-between">
+                            <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-ink/70 mb-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-cinnabar"></span>
+                                    <span class="uppercase tracking-widest font-bold text-ink">Актуальная карта Российской Федерации</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <span id="map-zoom-label" class="text-[11px] font-bold text-ink/60 mr-1">100%</span>
+                                    <button type="button" onclick="zoomRussiaMap(0.3)" class="w-7 h-7 rounded-sm border hairline-strong bg-parchment hover:bg-linen font-bold text-ink flex items-center justify-center cursor-pointer" title="Приблизить" aria-label="Приблизить карту">+</button>
+                                    <button type="button" onclick="zoomRussiaMap(-0.3)" class="w-7 h-7 rounded-sm border hairline-strong bg-parchment hover:bg-linen font-bold text-ink flex items-center justify-center cursor-pointer" title="Отдалить" aria-label="Отдалить карту">−</button>
+                                    <button type="button" onclick="resetRussiaMapTransform()" class="px-2 h-7 rounded-sm border hairline-strong bg-parchment hover:bg-linen text-[11px] font-bold text-ink cursor-pointer" title="Сбросить масштаб">Сброс</button>
+                                </div>
+                            </div>
+
+                            <div id="russia-map-stage" class="w-full overflow-hidden rounded-sm border hairline bg-[#F4ECDF] relative min-h-[260px] sm:min-h-[360px] flex items-center justify-center touch-none">
+                                <svg id="russia-map-svg" viewBox="0 0 920 550" width="100%" preserveAspectRatio="xMidYMid meet" class="w-full h-auto block select-none" role="img" aria-label="Интерактивная карта Российской Федерации с культурными регионами">
+                                    <defs>
+                                        <pattern id="mapGrid" width="46" height="46" patternUnits="userSpaceOnUse"><path d="M 46 0 L 0 0 0 46" fill="none" stroke="#2A2622" stroke-opacity="0.075" stroke-width="0.7"/></pattern>
+                                        <linearGradient id="russiaLandGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#E7D7BE"/><stop offset="55%" stop-color="#DEC8A8"/><stop offset="100%" stop-color="#D4BC98"/></linearGradient>
+                                        <filter id="mapShadow" x="-5%" y="-5%" width="110%" height="110%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#1F1D1A" flood-opacity="0.14"/></filter>
+                                    </defs>
+                                    <rect width="920" height="550" fill="#F4ECDF"/>
+                                    <rect width="920" height="550" fill="url(#mapGrid)"/>
+
+                                    <g id="russia-map-viewport" transform="translate(0,0) scale(1)">
+                                        <g id="russia-graticule-layer" stroke="#2A2622" stroke-opacity="0.11" stroke-width="0.75" fill="none" stroke-dasharray="4 4"></g>
+                                        <g id="russia-land-layer" filter="url(#mapShadow)"></g>
+                                        <g id="russia-fd-layer" fill="none" stroke="#2A2622" stroke-opacity="0.32" stroke-width="0.95" stroke-dasharray="3.5 2.5"></g>
+                                        <g id="russia-hydro-layer"></g>
+                                        <g id="russia-labels-layer"></g>
+                                        <g id="russia-pins-layer"></g>
+                                    </g>
+
+                                    <g transform="translate(16, 16)">
+                                        <rect x="0" y="0" width="236" height="46" rx="2" fill="#FAF6EE" fill-opacity="0.94" stroke="#2A2622" stroke-width="1"/>
+                                        <text x="12" y="19" font-family="Cormorant Garamond, Georgia, serif" font-size="14" font-weight="bold" fill="#1F1D1A">РОССИЙСКАЯ ФЕДЕРАЦИЯ</text>
+                                        <text x="12" y="34" font-size="9.5" fill="#A63426" font-weight="bold">Актуальный контур · 6 точек наследия</text>
+                                    </g>
+
+                                    <g transform="translate(874, 492)" opacity="0.76">
+                                        <circle cx="0" cy="0" r="22" fill="#FAF6EE" fill-opacity="0.86" stroke="#1F1D1A" stroke-width="1"/>
+                                        <polygon points="0,-19 3.6,-3.6 0,-7 -3.6,-3.6" fill="#A63426"/><polygon points="0,19 3.6,3.6 0,7 -3.6,3.6" fill="#1F1D1A"/>
+                                        <polygon points="19,0 3.6,3.6 7,0 3.6,-3.6" fill="#1F1D1A"/><polygon points="-19,0 -3.6,3.6 -7,0 -3.6,-3.6" fill="#1F1D1A"/>
+                                        <text x="0" y="-25" text-anchor="middle" font-size="9.5" fill="#1F1D1A" font-weight="bold">С</text>
+                                    </g>
+
+                                    <g transform="translate(16, 508)">
+                                        <rect x="0" y="0" width="276" height="28" rx="2" fill="#FAF6EE" fill-opacity="0.92" stroke="#2A2622" stroke-opacity="0.35" stroke-width="0.9"/>
+                                        <circle cx="14" cy="14" r="4.5" fill="#A63426"/><text x="24" y="17.5" font-size="9.5" fill="#1F1D1A">Центр традиции</text>
+                                        <line x1="116" y1="14" x2="136" y2="14" stroke="#5D7D78" stroke-width="1.6"/><text x="142" y="17.5" font-size="9.5" fill="#1F1D1A">Реки</text>
+                                        <line x1="176" y1="14" x2="196" y2="14" stroke="#2A2622" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="3 2"/><text x="202" y="17.5" font-size="9.5" fill="#1F1D1A">Федеральные округа</text>
+                                    </g>
+                                </svg>
+                            </div>
+
+                            <div class="flex flex-wrap items-center justify-between gap-2 pt-3 mt-3 border-t hairline">
+                                <div class="flex flex-wrap gap-2" id="map-quick-buttons"></div>
+                                <span id="map-pan-hint" class="hidden text-[11px] text-ink/60 italic">Перетаскивайте карту мышью или пальцем</span>
+                            </div>
+                        </div>
+
+                        <div class="responsive-col-span lg:col-span-5 p-5 sm:p-7 flex flex-col justify-between bg-parchment" id="map-info-panel"></div>
+                    </div>
+                </section>
+
+                <!-- Атлас (превью) -->
+                <section id="section-atlas-preview" class="border-b hairline-strong section-pad px-5 sm:px-10 py-12 sm:py-16 craft-texture">
+                    <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-cinnabar font-bold mb-1">Историческая подлинность</div>
+                            <h2 class="font-serif font-bold text-3xl sm:text-4xl text-ink">Атлас орнаментов</h2>
+                        </div>
+                        <button type="button" onclick="switchView('atlas')" class="text-sm font-bold text-forest hover:text-cinnabar underline underline-offset-4 transition cursor-pointer">Открыть полный каталог →</button>
+                    </div>
+                    <div id="home-atlas-grid" class="responsive-grid-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
+                </section>
+
+                <!-- Предстоящие события -->
+                <section id="section-events" class="border-b hairline-strong section-pad px-5 sm:px-10 py-12 sm:py-16">
+                    <div class="flex flex-wrap items-end justify-between gap-4 mb-7">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-cinnabar font-bold mb-1">Живое общение и практика</div>
+                            <h2 class="font-serif font-bold text-3xl sm:text-4xl text-ink">Предстоящие события</h2>
+                        </div>
+                        <div class="text-sm text-ink/70" id="events-counter-label">Найдено: 4 события</div>
+                    </div>
+                    <div class="bg-parchment border hairline rounded-sm p-4 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex flex-wrap items-center gap-2"><span class="text-xs uppercase tracking-wider font-bold text-ink/60 mr-1">Формат:</span><div id="filter-format-group" class="flex flex-wrap gap-2"></div></div>
+                        <div class="h-px md:h-6 md:w-px bg-ink/15"></div>
+                        <div class="flex flex-wrap items-center gap-2"><span class="text-xs uppercase tracking-wider font-bold text-ink/60 mr-1">Тема:</span><div id="filter-topic-group" class="flex flex-wrap gap-2"></div></div>
+                    </div>
+                    <div id="events-grid" class="responsive-grid-2 grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                </section>
+
+                <!-- Живые истории / Медиатека -->
+                <section id="section-media" class="border-b hairline-strong section-pad px-5 sm:px-10 py-12 sm:py-16 craft-texture">
+                    <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-cinnabar font-bold mb-1">Подкасты, статьи и видео</div>
+                            <h2 class="font-serif font-bold text-3xl sm:text-4xl text-ink">Живые истории / Медиатека</h2>
+                        </div>
+                        <button type="button" onclick="switchView('blog')" class="text-sm font-bold text-forest hover:text-cinnabar underline underline-offset-4 transition cursor-pointer">Все публикации и видео →</button>
+                    </div>
+                    <div id="media-grid" class="responsive-grid-3 grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+                </section>
+
+                <!-- Подписка -->
+                <section id="section-community" class="section-pad px-5 sm:px-10 py-14 sm:py-16">
+                    <div class="bg-parchment border hairline-strong rounded-sm p-6 sm:p-10 relative overflow-hidden">
+                        <div id="community-top-strip" class="absolute top-0 left-0 right-0 h-3 overflow-hidden opacity-85"></div>
+                        <div class="responsive-grid-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-3">
+                            <div class="responsive-col-span lg:col-span-6">
+                                <div class="text-xs uppercase tracking-widest text-cinnabar font-bold mb-2">Молодёжное сообщество</div>
+                                <h2 class="font-serif font-bold text-3xl sm:text-4xl text-ink mb-3">Присоединяйся к сообществу</h2>
+                                <p class="text-sm sm:text-base text-ink/80 leading-relaxed">Получайте анонсы этнокультурных мастер-классов, разговорных клубов, новых выпусков подкастов и экспедиций по регионам России.</p>
+                            </div>
+                            <div class="responsive-col-span lg:col-span-6">
+                                <form id="community-form" onsubmit="handleCommunitySubmit(event)" class="space-y-4" novalidate>
+                                    <div>
+                                        <label for="sub-email" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1.5">Электронная почта</label>
+                                        <input id="sub-email" type="email" placeholder="example@mail.ru" class="w-full px-4 py-3 rounded-md bg-linen border hairline-strong text-ink placeholder:text-ink/45 focus:outline-none focus:ring-2 focus:ring-forest text-sm">
+                                        <p id="sub-error" class="hidden text-xs text-cinnabar font-bold mt-1.5"></p>
+                                    </div>
+                                    <div>
+                                        <span class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-2">Выберите интересные направления:</span>
+                                        <div id="sub-interests-group" class="flex flex-wrap gap-2"></div>
+                                    </div>
+                                    <button type="submit" class="w-full sm:w-auto px-7 py-3.5 rounded-md bg-forest hover:bg-forestHover text-parchment font-bold text-sm transition shadow-sm cursor-pointer">Подписаться на анонсы</button>
+                                </form>
+                                <div id="community-success" class="hidden p-5 rounded-sm bg-forest/10 border border-forest text-ink space-y-2">
+                                    <div class="flex items-center gap-2 font-bold text-forest"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Добро пожаловать в «Культурный мост»!</span></div>
+                                    <p class="text-sm text-ink/80" id="community-success-text"></p>
+                                    <button type="button" onclick="resetCommunityForm()" class="text-xs font-bold text-forest underline underline-offset-4 cursor-pointer">Указать другой адрес</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ===================================================================== -->
+            <!-- СТРАНИЦА 2: БЛОГ И ВИДЕО (НОВАЯ ВКЛАДКА ДЛЯ ПОСТОВ И ВИДЕО СО ЗВУКОМ) -->
+            <!-- ===================================================================== -->
+            <div id="view-blog" class="view-section hidden">
+                <section class="section-pad px-5 sm:px-10 py-10 sm:py-14 border-b hairline-strong craft-texture">
+                    <div class="flex flex-wrap items-end justify-between gap-4">
+                        <div class="max-w-2xl">
+                            <div class="text-xs uppercase tracking-widest text-cinnabar font-bold mb-2">Публикации сообщества</div>
+                            <h1 class="font-serif font-bold text-4xl sm:text-5xl text-ink mb-3">Блог и видеоистории</h1>
+                            <p class="text-sm sm:text-base text-ink/80 leading-relaxed">Статьи, заметки об экспедициях и видеоматериалы со звуком от редакции и участников проекта.</p>
+                        </div>
+                        <button type="button" onclick="openAdminEntry()" class="px-5 py-3 rounded-md bg-forest hover:bg-forestHover text-parchment text-sm font-bold transition shadow-sm cursor-pointer">+ Добавить пост (Админ)</button>
+                    </div>
+                </section>
+
+                <section class="section-pad px-5 sm:px-10 py-8 sm:py-12 space-y-6">
+                    <!-- Панель фильтрации и поиска -->
+                    <div class="bg-parchment border hairline-strong rounded-sm p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex flex-wrap items-center gap-2" id="blog-filter-group"></div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <input id="blog-search-input" type="search" oninput="renderBlogPosts()" placeholder="Поиск по заголовку или региону..." class="w-full sm:w-64 px-3.5 py-2 rounded-md bg-linen border hairline-strong text-sm focus:outline-none focus:ring-2 focus:ring-forest">
+                            <span id="blog-counter-label" class="text-xs font-bold text-ink/65 whitespace-nowrap"></span>
+                        </div>
+                    </div>
+
+                    <div id="blog-status-banner" class="hidden p-3.5 rounded-sm bg-craft border hairline text-xs text-ink/80 flex items-center justify-between gap-3"></div>
+
+                    <!-- Сетка публикаций и видео -->
+                    <div id="blog-posts-grid" class="responsive-grid-2 grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+                </section>
+            </div>
+
+            <!-- ===================================================================== -->
+            <!-- СТРАНИЦА 3: ПАНЕЛЬ АДМИНИСТРАТОРА                                     -->
+            <!-- ===================================================================== -->
+            <div id="view-admin" class="view-section hidden">
+                <section class="section-pad px-5 sm:px-10 py-8 sm:py-10 border-b hairline-strong craft-texture">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-cinnabar font-bold mb-1">Управление контентом</div>
+                            <h1 class="font-serif font-bold text-3xl sm:text-4xl text-ink">Панель администратора</h1>
+                            <p id="admin-connection-status" class="text-xs text-ink/75 mt-1"></p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2.5">
+                            <button type="button" onclick="switchView('blog')" class="px-4 py-2 rounded-md border hairline-strong bg-parchment hover:bg-linen text-xs sm:text-sm font-bold cursor-pointer">Открыть «Блог и видео» →</button>
+                            <button type="button" onclick="logoutAdmin()" class="px-4 py-2 rounded-md bg-cinnabar text-parchment text-xs sm:text-sm font-bold hover:opacity-90 transition cursor-pointer">Выйти</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-pad px-5 sm:px-10 py-8 space-y-8">
+                    <!-- Вкладки внутри админки -->
+                    <div class="flex flex-wrap gap-2 border-b hairline pb-3">
+                        <button type="button" data-admin-tab="editor" onclick="switchAdminTab('editor')" class="admin-tab-btn px-4 py-2 rounded-md text-sm font-bold bg-forest text-parchment cursor-pointer">Создать / Редактировать пост</button>
+                        <button type="button" data-admin-tab="list" onclick="switchAdminTab('list')" class="admin-tab-btn px-4 py-2 rounded-md text-sm font-bold border hairline-strong bg-parchment text-ink cursor-pointer">Публикации (<span id="admin-posts-count">0</span>)</button>
+                        <button type="button" data-admin-tab="setup" onclick="switchAdminTab('setup')" class="admin-tab-btn px-4 py-2 rounded-md text-sm font-bold border hairline-strong bg-parchment text-ink cursor-pointer">Подключение облака Supabase</button>
+                    </div>
+
+                    <!-- Вкладка 1: Редактор постов и видео -->
+                    <div id="admin-tab-editor" class="admin-tab-panel responsive-grid-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <form id="admin-post-form" onsubmit="handleAdminPostSubmit(event)" class="responsive-col-span lg:col-span-7 bg-parchment border hairline-strong rounded-sm p-6 space-y-5" novalidate>
+                            <input type="hidden" id="admin-edit-id" value="">
+
+                            <div class="flex items-center justify-between border-b hairline pb-3">
+                                <h2 id="admin-form-title" class="font-serif font-bold text-2xl text-ink">Новая публикация</h2>
+                                <button type="button" id="admin-cancel-edit-btn" onclick="resetAdminForm()" class="hidden text-xs font-bold text-cinnabar underline cursor-pointer">Отменить редактирование</button>
+                            </div>
+
+                            <!-- Тип материала -->
+                            <div>
+                                <span class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-2">Тип материала *</span>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button type="button" id="type-btn-text" onclick="setAdminPostType('text')" class="py-3 px-4 rounded-md border hairline-strong bg-forest text-parchment text-sm font-bold cursor-pointer transition">📝 Текстовый пост</button>
+                                    <button type="button" id="type-btn-video" onclick="setAdminPostType('video')" class="py-3 px-4 rounded-md border hairline-strong bg-linen text-ink text-sm font-bold cursor-pointer transition">🎬 Видео со звуком</button>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="post-title" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Заголовок *</label>
+                                    <input id="post-title" type="text" placeholder="Например: Северное узорочье" class="w-full px-3.5 py-2.5 rounded-md bg-linen border hairline-strong text-sm focus:outline-none focus:ring-2 focus:ring-forest">
+                                </div>
+                                <div>
+                                    <label for="post-category" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Регион или тема *</label>
+                                    <input id="post-category" type="text" value="Татарстан · Традиции" placeholder="Республика, промысел, тема" class="w-full px-3.5 py-2.5 rounded-md bg-linen border hairline-strong text-sm focus:outline-none focus:ring-2 focus:ring-forest">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="post-body" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Текст поста / описание видео *</label>
+                                <textarea id="post-body" rows="5" placeholder="Напишите текст статьи или сопроводительное описание к видеоролику..." class="w-full px-3.5 py-2.5 rounded-md bg-linen border hairline-strong text-sm focus:outline-none focus:ring-2 focus:ring-forest"></textarea>
+                            </div>
+
+                            <!-- Обложка (для текста или постера видео) -->
+                            <div class="p-4 bg-linen border hairline rounded-sm space-y-3">
+                                <label for="post-cover-url" class="block text-xs uppercase tracking-wider font-bold text-ink/75">Обложка поста (необязательно)</label>
+                                <div class="flex flex-col sm:flex-row gap-2.5">
+                                    <input id="post-cover-url" type="url" placeholder="Вставьте ссылку на изображение..." oninput="updateAdminPreview()" class="flex-1 px-3 py-2 rounded-md bg-parchment border hairline-strong text-xs focus:outline-none focus:ring-2 focus:ring-forest">
+                                    <label class="px-3.5 py-2 rounded-md border hairline-strong bg-parchment hover:bg-craft text-xs font-bold cursor-pointer text-center shrink-0">
+                                        Загрузить фото
+                                        <input id="post-cover-file" type="file" accept="image/*" class="hidden" onchange="handleCoverFileSelect(event)">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Блок видео со звуком -->
+                            <div id="admin-video-fields" class="hidden p-4 bg-craft border hairline-strong rounded-sm space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs uppercase tracking-wider font-bold text-cinnabar">Видеофайл или ссылка (со звуком)</span>
+                                    <span class="text-[11px] text-ink/65">MP4, WebM, YouTube, VK, Rutube</span>
+                                </div>
+                                <div class="flex flex-col sm:flex-row gap-2.5">
+                                    <input id="post-video-url" type="url" placeholder="Ссылка на .mp4, YouTube, VK Видео или Rutube..." oninput="updateAdminPreview()" class="flex-1 px-3 py-2 rounded-md bg-parchment border hairline-strong text-xs focus:outline-none focus:ring-2 focus:ring-forest">
+                                    <label class="px-4 py-2 rounded-md bg-ink text-parchment hover:bg-ink/85 text-xs font-bold cursor-pointer text-center shrink-0">
+                                        Выбрать видео с ПК
+                                        <input id="post-video-file" type="file" accept="video/*" class="hidden" onchange="handleVideoFileSelect(event)">
+                                    </label>
+                                </div>
+                                <div id="selected-video-filename" class="hidden text-xs font-bold text-forest"></div>
+                                <div id="upload-progress-wrap" class="hidden space-y-1">
+                                    <div class="text-[11px] font-bold text-cinnabar" id="upload-progress-label">Загрузка в облако...</div>
+                                    <div class="w-full h-2 bg-parchment rounded-full overflow-hidden border hairline"><div id="upload-progress-bar" class="h-full bg-forest transition-all duration-300" style="width: 15%"></div></div>
+                                </div>
+                            </div>
+
+                            <label class="flex items-center gap-2.5 text-sm font-bold text-ink cursor-pointer">
+                                <input id="post-pinned" type="checkbox" class="w-4 h-4 accent-cinnabar">
+                                <span>Закрепить публикацию вверху ленты</span>
+                            </label>
+
+                            <p id="admin-form-error" class="hidden text-xs text-cinnabar font-bold"></p>
+
+                            <div class="pt-2 flex flex-wrap gap-3">
+                                <button type="submit" id="admin-submit-btn" class="px-6 py-3 rounded-md bg-forest hover:bg-forestHover text-parchment text-sm font-bold transition shadow-sm cursor-pointer">Опубликовать на сайте</button>
+                                <button type="button" onclick="resetAdminForm()" class="px-4 py-3 rounded-md border hairline-strong text-sm font-bold hover:bg-craft cursor-pointer">Очистить форму</button>
+                            </div>
+                        </form>
+
+                        <!-- Живой предпросмотр перед публикацией (включая проверку звука) -->
+                        <div class="responsive-col-span lg:col-span-5 space-y-4">
+                            <div class="bg-parchment border hairline-strong rounded-sm p-5">
+                                <div class="text-xs uppercase tracking-widest text-cinnabar font-bold mb-3">Предпросмотр карточки (можно проверить звук)</div>
+                                <div id="admin-live-preview" class="border hairline bg-linen rounded-sm p-4 space-y-3"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Вкладка 2: Управление списком постов -->
+                    <div id="admin-tab-list" class="admin-tab-panel hidden bg-parchment border hairline-strong rounded-sm p-6">
+                        <h2 class="font-serif font-bold text-2xl text-ink mb-4">Опубликованные материалы</h2>
+                        <div id="admin-posts-list" class="space-y-3"></div>
+                    </div>
+
+                    <!-- Вкладка 3: Инструкция по подключению Supabase -->
+                    <div id="admin-tab-setup" class="admin-tab-panel hidden bg-parchment border hairline-strong rounded-sm p-6 space-y-4">
+                        <h2 class="font-serif font-bold text-2xl text-ink">Подключение облачного хранилища Supabase</h2>
+                        <p class="text-sm text-ink/80 leading-relaxed">Чтобы загруженные с компьютера видеофайлы и посты видели все посетители сайта с любых устройств, подключите бесплатный проект на <strong>supabase.com</strong> и вставьте <code>SUPABASE_URL</code> и <code>SUPABASE_ANON_KEY</code> в начало файла <code>app.js</code>.</p>
+                        <div class="p-4 bg-ink text-parchment rounded-sm text-xs overflow-x-auto font-mono leading-relaxed" id="supabase-sql-box"></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ===================================================================== -->
+            <!-- СТРАНИЦА 4: АТЛАС ОРНАМЕНТОВ                                          -->
+            <!-- ===================================================================== -->
+            <div id="view-atlas" class="view-section hidden">
+                <section class="section-pad px-5 sm:px-10 py-10 sm:py-14 border-b hairline-strong craft-texture">
+                    <div class="flex flex-wrap items-end justify-between gap-4">
+                        <div class="max-w-2xl">
+                            <div class="text-xs uppercase tracking-widest text-cinnabar font-bold mb-2">Этнографический каталог</div>
+                            <h1 class="font-serif font-bold text-4xl sm:text-5xl text-ink mb-3">Атлас подлинных орнаментов</h1>
+                            <p class="text-sm sm:text-base text-ink/80 leading-relaxed">Каждый узор в нашей базе восстановлен по историческим источникам народных промыслов России. Изучайте символику и собирайте штампы в коллекцию.</p>
+                        </div>
+                        <div class="px-4 py-3 bg-parchment border hairline-strong rounded-sm text-sm"><span class="text-ink/70">Ваш прогресс:</span><strong id="atlas-progress-badge" class="ml-1.5 text-cinnabar font-bold">Собрано 2 из 4</strong></div>
+                    </div>
+                </section>
+                <section class="section-pad px-5 sm:px-10 py-10 sm:py-14"><div id="full-atlas-list" class="space-y-8"></div></section>
+            </div>
+
+            <!-- ===================================================================== -->
+            <!-- СТРАНИЦА 5: ДЕТАЛЬНАЯ КАРТОЧКА СОБЫТИЯ                                -->
+            <!-- ===================================================================== -->
+            <div id="view-event" class="view-section hidden"><div id="event-detail-container"></div></div>
+
+            <!-- ===================================================================== -->
+            <!-- СТРАНИЦА 6: ЛИЧНЫЙ КАБИНЕТ                                            -->
+            <!-- ===================================================================== -->
+            <div id="view-profile" class="view-section hidden">
+                <section class="section-pad px-5 sm:px-10 py-10 sm:py-12 border-b hairline-strong craft-texture">
+                    <div class="flex flex-wrap items-end justify-between gap-4">
+                        <div>
+                            <div class="text-xs uppercase tracking-widest text-cinnabar font-bold mb-1">Профиль участника</div>
+                            <h1 class="font-serif font-bold text-4xl sm:text-5xl text-ink">Личный кабинет</h1>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" onclick="resetSavedState()" class="px-3.5 py-2 rounded-md border hairline-strong bg-parchment hover:bg-linen text-xs font-bold text-ink/75 hover:text-cinnabar transition cursor-pointer">Сбросить прогресс</button>
+                            <button type="button" onclick="logoutUser()" class="px-3.5 py-2 rounded-md bg-cinnabar text-parchment text-xs font-bold hover:opacity-90 transition cursor-pointer">Выйти</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Баннер для незарегистрированных пользователей -->
+                <div id="profile-guest-banner" class="hidden section-pad px-5 sm:px-10 py-10">
+                    <div class="bg-parchment border hairline-strong rounded-sm p-8 text-center space-y-5 max-w-lg mx-auto">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-forest/15 border-2 border-forest text-forest flex items-center justify-center">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        </div>
+                        <div>
+                            <h2 class="font-serif font-bold text-3xl text-ink mb-2">Добро пожаловать!</h2>
+                            <p class="text-sm text-ink/75 leading-relaxed">Войдите или зарегистрируйтесь, чтобы сохранять события, собирать коллекцию орнаментов и отслеживать свой прогресс.</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                            <button type="button" onclick="openAuthModal('register')" class="px-7 py-3 rounded-md bg-forest hover:bg-forestHover text-parchment font-bold text-sm transition cursor-pointer">Зарегистрироваться</button>
+                            <button type="button" onclick="openAuthModal('login')" class="px-7 py-3 rounded-md border hairline-strong bg-parchment hover:bg-craft font-bold text-sm transition cursor-pointer">Уже есть аккаунт → Войти</button>
+                        </div>
+                    </div>
+                </div>
+                <section id="profile-main-content" class="section-pad px-5 sm:px-10 py-10">
+                    <div class="responsive-grid-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div class="responsive-col-span lg:col-span-4 space-y-6">
+                            <div class="bg-parchment border hairline-strong rounded-sm p-6">
+    <!-- Режим просмотра профиля -->
+    <div id="profile-view-card">
+        <div class="flex items-start justify-between gap-2 mb-4">
+            <div class="flex items-center gap-3.5">
+                <div id="profile-avatar-initials" class="w-14 h-14 rounded-full border hairline-strong bg-forest text-parchment font-serif font-bold text-2xl flex items-center justify-center shrink-0">
+                    АБ
+                </div>
+                <div>
+                    <h2 id="profile-full-name" class="font-serif font-bold text-2xl text-ink leading-tight">Пользователь</h2>
+                    <p id="profile-org" class="text-xs text-cinnabar font-bold mt-0.5"></p>
+                </div>
+            </div>
+            <button type="button" onclick="toggleProfileEdit(true)" class="px-2.5 py-1.5 rounded-sm border hairline-strong bg-linen hover:bg-craft text-xs font-bold cursor-pointer shrink-0">Изменить</button>
+        </div>
+
+        <div class="space-y-1.5 text-xs text-ink/80 pb-4 border-b hairline">
+            <div><strong class="text-ink/60">Почта:</strong> <span id="profile-email"></span></div>
+            <div><strong class="text-ink/60">Телефон:</strong> <span id="profile-phone"></span></div>
+            <div><strong class="text-ink/60">Дата рождения:</strong> <span id="profile-birthdate"></span></div>
+        </div>
+    </div>
+
+    <!-- Режим редактирования профиля -->
+    <form id="profile-edit-form" onsubmit="saveProfileSettings(event)" class="hidden space-y-3 pb-4 border-b hairline">
+        <div class="text-xs uppercase tracking-wider font-bold text-cinnabar">Настройка профиля</div>
+        <input id="edit-lastname" type="text" placeholder="Фамилия" required class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-xs">
+        <input id="edit-firstname" type="text" placeholder="Имя" required class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-xs">
+        <input id="edit-middlename" type="text" placeholder="Отчество" class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-xs">
+        <input id="edit-org" type="text" placeholder="Наименование организации" required class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-xs">
+        <input id="edit-birthdate" type="date" required class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-xs">
+        <input id="edit-phone" type="tel" placeholder="Номер телефона" required class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-xs">
+        <div class="flex gap-2 pt-1">
+            <button type="submit" class="flex-1 py-2 rounded-md bg-forest text-parchment text-xs font-bold cursor-pointer">Сохранить</button>
+            <button type="button" onclick="toggleProfileEdit(false)" class="px-3 py-2 rounded-md border hairline-strong text-xs font-bold cursor-pointer">Отмена</button>
+        </div>
+    </form>
+
+    <div class="pt-4">
+        <div class="flex items-center justify-between mb-2.5"><span class="text-xs uppercase tracking-wider font-bold text-ink/70">Мои интересы</span><span class="text-[11px] text-ink/50">нажмите для выбора</span></div>
+        <div id="profile-interests-container" class="flex flex-wrap gap-2"></div>
+    </div>
+</div>
+                            <div class="bg-parchment border hairline rounded-sm p-5 space-y-3">
+                                <h3 class="font-serif font-bold text-xl text-ink">Прогресс культурного обмена</h3>
+                                <div class="grid grid-cols-3 gap-2 text-center pt-1">
+                                    <div class="p-2.5 bg-linen border hairline rounded-sm"><div id="stat-registrations" class="font-serif font-bold text-2xl text-forest">1</div><div class="text-[11px] text-ink/70">Записи</div></div>
+                                    <div class="p-2.5 bg-linen border hairline rounded-sm"><div id="stat-ornaments" class="font-serif font-bold text-2xl text-cinnabar">2/4</div><div class="text-[11px] text-ink/70">Узоры</div></div>
+                                    <div class="p-2.5 bg-linen border hairline rounded-sm"><div id="stat-saved" class="font-serif font-bold text-2xl text-gold">2</div><div class="text-[11px] text-ink/70">Сохранено</div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="responsive-col-span lg:col-span-8 space-y-8">
+                            <div class="bg-parchment border hairline-strong rounded-sm p-6">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b hairline"><h3 class="font-serif font-bold text-2xl text-ink">Мои записи на события</h3><button type="button" onclick="switchView('home'); setTimeout(() => document.getElementById('section-events').scrollIntoView({behavior:'smooth'}), 120)" class="text-xs font-bold text-forest underline underline-offset-4 cursor-pointer">Найти ещё события →</button></div>
+                                <div id="profile-registrations-list" class="space-y-3"></div>
+                            </div>
+                            <div class="bg-parchment border hairline-strong rounded-sm p-6">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                                    <div><h3 class="font-serif font-bold text-2xl text-ink">Коллекция узоров</h3><p class="text-xs text-ink/70">Собирайте подлинные штампы в «Атласе орнаментов» и на «Карте традиций»</p></div>
+                                    <span id="profile-collection-progress" class="px-3 py-1 rounded-sm bg-cinnabar/10 border border-cinnabar/30 text-cinnabar text-xs font-bold">Собрано 2 из 4 узоров</span>
+                                </div>
+                                <div class="w-full h-2 bg-craft rounded-full overflow-hidden mb-5 border hairline"><div id="profile-collection-bar" class="h-full bg-cinnabar transition-all duration-500" style="width: 50%"></div></div>
+                                <div id="profile-ornaments-grid" class="responsive-grid-4 grid grid-cols-2 sm:grid-cols-4 gap-4"></div>
+                            </div>
+                            <div class="bg-parchment border hairline-strong rounded-sm p-6">
+                                <div class="mb-4 pb-3 border-b hairline"><h3 class="font-serif font-bold text-2xl text-ink">Достижения</h3><p class="text-xs text-ink/70">Текстильные нашивки открываются автоматически</p></div>
+                                <div id="profile-achievements-grid" class="responsive-grid-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"></div>
+                            </div>
+                            <div class="bg-parchment border hairline-strong rounded-sm p-6">
+                                <div class="mb-4 pb-3 border-b hairline flex items-center justify-between"><h3 class="font-serif font-bold text-2xl text-ink">Сохранённые материалы</h3><span class="text-xs text-ink/60">Медиатека и избранные события</span></div>
+                                <div id="profile-saved-list" class="space-y-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ===================================================================== -->
+            <!-- СТРАНИЦА 7: UI-KIT                                                    -->
+            <!-- ===================================================================== -->
+            <div id="view-uikit" class="view-section hidden">
+                <section class="section-pad px-5 sm:px-10 py-10 sm:py-14 border-b hairline-strong craft-texture">
+                    <div class="text-xs uppercase tracking-widest text-cinnabar font-bold mb-2">Дизайн-система проекта</div>
+                    <h1 class="font-serif font-bold text-4xl sm:text-5xl text-ink mb-3">UI-Kit · «Этно-Крафт»</h1>
+                    <p class="text-sm sm:text-base text-ink/80 max-w-2xl">Нажмите на любую карточку цвета, чтобы скопировать HEX-код.</p>
+                </section>
+                <div class="section-pad px-5 sm:px-10 py-10 space-y-12">
+                    <div><h2 class="font-serif font-bold text-3xl text-ink mb-5 pb-2 border-b hairline">1. Цветовая палитра</h2><div id="uikit-colors-grid" class="responsive-grid-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div></div>
+                    <div>
+                        <h2 class="font-serif font-bold text-3xl text-ink mb-5 pb-2 border-b hairline">2. Типографическая шкала</h2>
+                        <div class="bg-parchment border hairline-strong rounded-sm divide-y hairline">
+                            <div class="p-5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2"><span class="text-xs uppercase tracking-wider font-bold text-cinnabar w-44 shrink-0">H1 · Cormorant Bold 48px</span><div class="font-serif font-bold text-4xl sm:text-5xl text-ink flex-1">Культурный мост</div></div>
+                            <div class="p-5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2"><span class="text-xs uppercase tracking-wider font-bold text-cinnabar w-44 shrink-0">H2 · Cormorant Bold 36px</span><div class="font-serif font-bold text-3xl sm:text-4xl text-ink flex-1">Атлас подлинных орнаментов</div></div>
+                            <div class="p-5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2"><span class="text-xs uppercase tracking-wider font-bold text-ink/60 w-44 shrink-0">Основной · PT Sans 16px</span><div class="font-sans text-base text-ink/85 flex-1">Платформа объединяет молодёжь для изучения традиций, языков и подлинных ремёсел народов России.</div></div>
+                        </div>
+                    </div>
+                    <div><h2 class="font-serif font-bold text-3xl text-ink mb-5 pb-2 border-b hairline">3. Векторные национальные орнаменты</h2><div id="uikit-ornaments-grid" class="responsive-grid-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Подвал сайта -->
+        <footer class="border-t hairline-strong bg-craft mt-auto">
+            <div id="footer-ornament-strip" class="w-full h-4 overflow-hidden border-b hairline bg-parchment"></div>
+            <div class="section-pad px-5 sm:px-10 py-10">
+                <div class="responsive-grid-12 grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b hairline">
+                    <div class="responsive-col-span md:col-span-5 space-y-3">
+                        <div class="font-serif font-bold text-2xl uppercase tracking-wider text-ink">Культурный мост</div>
+                        <p class="text-sm text-ink/75 leading-relaxed">Интерактивное цифровое пространство «Культурный мост: от цифры к общению» для укрепления межнационального диалога, изучения языков и популяризации подлинных ремёсел народов России.</p>
+                        <p class="text-xs text-ink/60">Проект реализуется командой НХТИ (филиала) ФГБОУ ВО «КНИТУ» в рамках всероссийского проекта «ЭтноЛаб: акселерация успеха».</p>
+                    </div>
+                    <div class="responsive-col-span md:col-span-3 space-y-2">
+                        <div class="text-xs uppercase tracking-widest font-bold text-cinnabar mb-2">Разделы</div>
+                        <ul class="space-y-1.5 text-sm">
+                            <li><button type="button" onclick="switchView('home')" class="hover:text-cinnabar transition cursor-pointer">Главная страница</button></li>
+                            <li><button type="button" onclick="switchView('blog')" class="hover:text-cinnabar transition cursor-pointer">Блог и видео</button></li>
+                            <li><button type="button" onclick="switchView('atlas')" class="hover:text-cinnabar transition cursor-pointer">Атлас орнаментов</button></li>
+                            <li><button type="button" onclick="switchView('event')" class="hover:text-cinnabar transition cursor-pointer">Ближайшее событие</button></li>
+                            <li><button type="button" onclick="switchView('profile')" class="hover:text-cinnabar transition cursor-pointer">Личный кабинет</button></li>
+                            <li><button type="button" onclick="openAdminEntry()" class="hover:text-cinnabar transition cursor-pointer font-bold">Панель администратора</button></li>
+                        </ul>
+                    </div>
+                    <div class="responsive-col-span md:col-span-4 space-y-2">
+                        <div class="text-xs uppercase tracking-widest font-bold text-cinnabar mb-2">О концепции</div>
+                        <p class="text-sm text-ink/75">Дизайн-направление <strong>«Этно-Крафт» (Natural Heritage)</strong>: аутентичная графика, природная палитра и уважение к историческому канону.</p>
+                        <div class="pt-2 flex flex-wrap gap-2 text-xs">
+                            <span class="px-2.5 py-1 bg-parchment border hairline rounded-sm">Мезень</span>
+                            <span class="px-2.5 py-1 bg-parchment border hairline rounded-sm">Кеске</span>
+                            <span class="px-2.5 py-1 bg-parchment border hairline rounded-sm">Тюльпан</span>
+                            <span class="px-2.5 py-1 bg-parchment border hairline rounded-sm">Лира</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-6 flex flex-wrap items-center justify-between gap-3 text-xs text-ink/60">
+                    <span>© 2026 «Культурный мост: от цифры к общению». Все права защищены.</span>
+                    <span>Дизайн-концепция «Этно-Крафт»</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Модалка входа администратора -->
+    <div id="modal-admin-login" class="hidden fixed inset-0 z-50 bg-ink/55 backdrop-blur-[2px] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="admin-login-heading">
+        <div class="bg-parchment border hairline-strong rounded-sm max-w-md w-full shadow-2xl overflow-hidden animate-[fadeIn_0.2s_ease-out]">
+            <div class="px-6 py-4 bg-craft border-b hairline flex items-center justify-between">
+                <div>
+                    <div class="text-[11px] uppercase tracking-widest text-cinnabar font-bold">Доступ редактора</div>
+                    <h3 id="admin-login-heading" class="font-serif font-bold text-2xl text-ink leading-tight">Вход в админ-панель</h3>
+                </div>
+                <button type="button" onclick="closeModal('modal-admin-login')" class="w-8 h-8 rounded-sm border hairline bg-parchment hover:bg-linen flex items-center justify-center text-ink cursor-pointer" aria-label="Закрыть">✕</button>
+            </div>
+            <div class="p-6 space-y-4">
+                <form id="admin-login-form" onsubmit="submitAdminLogin(event)" class="space-y-4" novalidate>
+                    <p id="admin-login-hint" class="text-xs text-ink/75 leading-relaxed bg-linen p-3 rounded-sm border hairline"></p>
+                    <div>
+                        <label for="admin-email" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Email администратора</label>
+                        <input id="admin-email" type="email" placeholder="admin@cultural-bridge.ru" class="w-full px-3.5 py-2.5 rounded-md bg-linen border hairline-strong text-sm focus:outline-none focus:ring-2 focus:ring-forest">
+                    </div>
+                    <div>
+                        <label for="admin-password" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Пароль</label>
+                        <input id="admin-password" type="password" placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-md bg-linen border hairline-strong text-sm focus:outline-none focus:ring-2 focus:ring-forest">
+                    </div>
+                    <p id="admin-login-error" class="hidden text-xs text-cinnabar font-bold"></p>
+                    <button type="submit" class="w-full py-3 rounded-md bg-forest hover:bg-forestHover text-parchment font-bold text-sm transition cursor-pointer">Войти</button>
+                </form>
+                <div id="admin-demo-entry-wrap" class="hidden pt-3 border-t hairline text-center">
+                    <button type="button" onclick="enterLocalAdminMode()" class="w-full py-2.5 rounded-md border hairline-strong bg-craft hover:bg-linen text-xs font-bold text-ink cursor-pointer">Открыть в локальном режиме (без настройки Supabase)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модалка регистрации на событие -->
+    <div id="modal-register" class="hidden fixed inset-0 z-50 bg-ink/55 backdrop-blur-[2px] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="reg-modal-heading">
+        <div class="bg-parchment border hairline-strong rounded-sm max-w-md w-full shadow-2xl overflow-hidden animate-[fadeIn_0.2s_ease-out]">
+            <div class="px-6 py-4 bg-craft border-b hairline flex items-center justify-between">
+                <div><div class="text-[11px] uppercase tracking-widest text-cinnabar font-bold">Запись на участие</div><h3 id="reg-modal-heading" class="font-serif font-bold text-2xl text-ink leading-tight">Регистрация на событие</h3></div>
+                <button type="button" onclick="closeModal('modal-register')" class="w-8 h-8 rounded-sm border hairline bg-parchment hover:bg-linen flex items-center justify-center text-ink cursor-pointer" aria-label="Закрыть">✕</button>
+            </div>
+            <div class="p-6">
+                <form id="event-register-form" onsubmit="submitEventRegistration(event)" class="space-y-4" novalidate>
+                    <div class="p-3 bg-linen border hairline rounded-sm text-xs"><span class="text-ink/60">Выбранное событие:</span><div id="reg-modal-event-title" class="font-bold text-sm text-ink mt-0.5"></div><div id="reg-modal-event-meta" class="text-ink/70 mt-0.5"></div></div>
+                    <div><label for="reg-name" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Имя и фамилия *</label><input id="reg-name" type="text" value="Мария Соколова" class="w-full px-3.5 py-2.5 rounded-md bg-linen border hairline-strong text-sm focus:outline-none focus:ring-2 focus:ring-forest"></div>
+                    <div><label for="reg-email" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Электронная почта *</label><input id="reg-email" type="email" value="m.sokolova@nhti.ru" class="w-full px-3.5 py-2.5 rounded-md bg-linen border hairline-strong text-sm focus:outline-none focus:ring-2 focus:ring-forest"></div>
+                    <div><label for="reg-org" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Учебное заведение / город *</label><input id="reg-org" type="text" value="НХТИ КНИТУ, г. Нижнекамск" class="w-full px-3.5 py-2.5 rounded-md bg-linen border hairline-strong text-sm focus:outline-none focus:ring-2 focus:ring-forest"></div>
+                    <p id="reg-error" class="hidden text-xs text-cinnabar font-bold"></p>
+                    <div class="pt-2 flex items-center gap-3"><button type="submit" class="flex-1 py-3 rounded-md bg-forest hover:bg-forestHover text-parchment font-bold text-sm transition cursor-pointer">Записаться</button><button type="button" onclick="closeModal('modal-register')" class="px-4 py-3 rounded-md border hairline-strong text-sm font-bold hover:bg-craft transition cursor-pointer">Отмена</button></div>
+                </form>
+                <div id="event-register-success" class="hidden text-center py-3 space-y-4">
+                    <div class="w-14 h-14 mx-auto rounded-full bg-forest/15 border-2 border-forest text-forest flex items-center justify-center"><svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
+                    <div><h4 class="font-serif font-bold text-3xl text-ink">Вы успешно записаны!</h4><p class="text-sm text-ink/75 mt-1" id="reg-success-desc"></p></div>
+                    <div class="p-3.5 bg-linen border border-dashed hairline-strong rounded-sm inline-block"><div class="text-[11px] uppercase tracking-widest text-ink/60">Код приглашения</div><div id="reg-ticket-code" class="font-serif font-bold text-2xl tracking-widest text-cinnabar mt-0.5">KM-2026-841</div></div>
+                    <div class="flex flex-col sm:flex-row gap-2.5 pt-2"><button type="button" onclick="closeModal('modal-register'); switchView('profile')" class="flex-1 py-2.5 rounded-md bg-forest hover:bg-forestHover text-parchment font-bold text-sm transition cursor-pointer">Перейти в Личный кабинет</button><button type="button" onclick="closeModal('modal-register')" class="px-4 py-2.5 rounded-md border hairline-strong text-sm font-bold hover:bg-craft transition cursor-pointer">Закрыть</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модалка деталей (орнаменты, статьи, посты блога, видео) -->
+    <div id="modal-detail" class="hidden fixed inset-0 z-50 bg-ink/55 backdrop-blur-[2px] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="detail-modal-title">
+        <div class="bg-parchment border hairline-strong rounded-sm max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-[fadeIn_0.2s_ease-out]">
+            <div class="px-6 py-4 bg-craft border-b hairline flex items-center justify-between shrink-0">
+                <div><div id="detail-modal-eyebrow" class="text-[11px] uppercase tracking-widest text-cinnabar font-bold"></div><h3 id="detail-modal-title" class="font-serif font-bold text-2xl sm:text-3xl text-ink leading-tight"></h3></div>
+                <button type="button" onclick="closeModal('modal-detail')" class="w-8 h-8 rounded-sm border hairline bg-parchment hover:bg-linen flex items-center justify-center text-ink cursor-pointer" aria-label="Закрыть">✕</button>
+            </div>
+            <div id="detail-modal-body" class="p-6 overflow-y-auto space-y-5"></div>
+        </div>
+    </div>
+<!-- Модалка входа и регистрации пользователя -->
+<div id="modal-auth" class="hidden fixed inset-0 z-50 bg-ink/55 backdrop-blur-[2px] flex items-center justify-center p-4" role="dialog" aria-modal="true">
+    <div class="bg-parchment border hairline-strong rounded-sm max-w-md w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-[fadeIn_0.2s_ease-out]">
+        <div class="px-6 py-4 bg-craft border-b hairline flex items-center justify-between shrink-0">
+            <div>
+                <div class="text-[11px] uppercase tracking-widest text-cinnabar font-bold">Личный кабинет</div>
+                <h3 id="auth-modal-title" class="font-serif font-bold text-2xl text-ink leading-tight">Вход в систему</h3>
+            </div>
+            <button type="button" onclick="closeModal('modal-auth')" class="w-8 h-8 rounded-sm border hairline bg-parchment hover:bg-linen flex items-center justify-center text-ink cursor-pointer">✕</button>
+        </div>
+
+        <!-- Переключатель Вход / Регистрация -->
+        <div class="grid grid-cols-2 border-b hairline bg-linen text-xs font-bold shrink-0">
+            <button type="button" id="auth-tab-login" onclick="switchAuthTab('login')" class="py-3 bg-forest text-parchment cursor-pointer transition">Вход</button>
+            <button type="button" id="auth-tab-register" onclick="switchAuthTab('register')" class="py-3 text-ink hover:bg-craft cursor-pointer transition">Регистрация</button>
+        </div>
+
+        <div class="p-6 overflow-y-auto">
+            <!-- Форма Входа (только логин и пароль) -->
+            <form id="user-login-form" onsubmit="handleUserLogin(event)" class="space-y-4" novalidate>
+                <div>
+                    <label for="login-email" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Почта (логин) *</label>
+                    <input id="login-email" type="email" placeholder="example@mail.ru" class="w-full px-3.5 py-2.5 rounded-md bg-linen border hairline-strong text-sm focus:outline-none focus:ring-2 focus:ring-forest">
+                </div>
+                <div>
+                    <label for="login-password" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Пароль *</label>
+                    <input id="login-password" type="password" placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-md bg-linen border hairline-strong text-sm focus:outline-none focus:ring-2 focus:ring-forest">
+                </div>
+                <p id="login-error" class="hidden text-xs text-cinnabar font-bold"></p>
+                <button type="submit" class="w-full py-3 rounded-md bg-forest hover:bg-forestHover text-parchment font-bold text-sm transition cursor-pointer">Войти в кабинет</button>
+            </form>
+
+            <!-- Форма Регистрации (все 7 полей + пароль) -->
+            <form id="user-register-form" onsubmit="handleUserRegister(event)" class="hidden space-y-3" novalidate>
+                <div>
+                    <label for="reg-u-email" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Электронная почта (логин) *</label>
+                    <input id="reg-u-email" type="email" placeholder="ivanov@mail.ru" class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-sm">
+                </div>
+                <div>
+                    <label for="reg-u-password" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Пароль *</label>
+                    <input id="reg-u-password" type="password" placeholder="Минимум 4 символа" class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-sm">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="reg-u-lastname" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Фамилия *</label>
+                        <input id="reg-u-lastname" type="text" placeholder="Иванов" class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-sm">
+                    </div>
+                    <div>
+                        <label for="reg-u-firstname" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Имя *</label>
+                        <input id="reg-u-firstname" type="text" placeholder="Иван" class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label for="reg-u-middlename" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Отчество</label>
+                    <input id="reg-u-middlename" type="text" placeholder="Иванович" class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-sm">
+                </div>
+                <div>
+                    <label for="reg-u-org" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Наименование организации *</label>
+                    <input id="reg-u-org" type="text" placeholder="НХТИ КНИТУ / Школа №..." class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-sm">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="reg-u-birthdate" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Дата рождения *</label>
+                        <input id="reg-u-birthdate" type="date" class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-sm">
+                    </div>
+                    <div>
+                        <label for="reg-u-phone" class="block text-xs uppercase tracking-wider font-bold text-ink/75 mb-1">Номер телефона *</label>
+                        <input id="reg-u-phone" type="tel" placeholder="+7 (999) 000-00-00" class="w-full px-3 py-2 rounded-md bg-linen border hairline-strong text-sm">
+                    </div>
+                </div>
+                <p id="register-error" class="hidden text-xs text-cinnabar font-bold"></p>
+                <button type="submit" class="w-full py-3 rounded-md bg-forest hover:bg-forestHover text-parchment font-bold text-sm transition cursor-pointer mt-2">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none max-w-sm" aria-live="polite"></div>
+
+    <!-- Supabase JS SDK + логика приложения -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>
